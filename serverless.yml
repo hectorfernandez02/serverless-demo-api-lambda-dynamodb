@@ -1,0 +1,72 @@
+service: demo-api-lambda-dynamodb-${file(keys.yml):USER_NAME}
+frameworkVersion: "3"
+
+plugins:
+  - serverless-plugin-typescript
+  - serverless-offline
+  - serverless-tscpaths
+
+custom:
+  tscpaths:
+    tsconfigPath: tsconfig.json
+
+provider:
+  name: aws
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action: "dynamodb:PutItem"
+          Resource: "*"
+        - Effect: Allow
+          Action: "dynamodb:GetItem"
+          Resource: "*"
+  lambdaHashingVersion: 20201221
+  stage: dev
+  region: ${file(keys.yml):GENERAL_REGION}
+  runtime: nodejs16.x
+  memorySize: 512
+  timeout: 30
+  tags:
+    environment: dev
+    user: ${file(keys.yml):USER_NAME}
+  httpApi:
+    useProviderTags: true
+  deploymentBucket:
+    name: demo-api-lambda-dynamodb-${file(keys.yml):USER_NAME}
+    serverSideEncryption: AES256
+  stackName: demo-api-lambda-dynamodb-${file(keys.yml):USER_NAME}
+
+functions:
+  PlayersGetAll:
+    handler: src/Controllers/PlayersGetAll.handler
+    environment:
+      NODE_ENV: ${file(keys.yml):NODE_ENV}
+    events:
+      - http:
+          path: /players
+          method: get
+          cors: true
+
+resources:
+  Resources:
+    playersTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: demo-api-lambda-dynamodb-${file(keys.yml):NODE_ENV}-${file(keys.yml):USER_NAME}
+        AttributeDefinitions:
+          - AttributeName: playerId
+            AttributeType: S
+          - AttributeName: team
+            AttributeType: S
+        KeySchema:
+          - AttributeName: playerId
+            KeyType: HASH
+          - AttributeName: team
+            KeyType: RANGE
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+        TimeToLiveSpecification:
+          AttributeName: ttl
+          Enabled: true
