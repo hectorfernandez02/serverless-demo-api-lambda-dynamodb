@@ -1,18 +1,96 @@
-import { QueryCommand, ScanCommand } from "@aws-sdk/client-dynamodb";
-
+import {
+  QueryCommand,
+  ScanCommand,
+  PutItemCommand,
+} from "@aws-sdk/client-dynamodb";
+import { Player } from "@Entities/Player";
 import { PlayerPrimitives } from "@Types/PlayerPrimitives";
 import { Nullable } from "@Types/Nullable";
 import { getDynamoDBConfigs } from "@Persistence/DynamoDBConfigs";
 import { DynamoDBFactory } from "@Persistence/DynamoDBFactory";
 
+export const searchOnePlayer = async (
+  playerId: string
+): Promise<Nullable<PlayerPrimitives>> => {
+  const client = DynamoDBFactory.getClient();
 
+  const tableName = getDynamoDBConfigs().table_names.players_table;
+  const items = [];
+
+  let commandBody: any = {
+    TableName: tableName,
+    Limit: 1,
+    ConsistentRead: true,
+    KeyConditionExpression: "playerId = :playerIdValue",
+    ExpressionAttributeValues: { ":playerIdValue": { S: playerId } },
+  };
+
+  try {
+    const result = await client.send(new QueryCommand(commandBody));
+
+    if (result.Items && result.Items.length > 0) {
+      items.push(...result.Items);
+    }
+
+    if (items.length <= 0) return null;
+
+    return {
+      playerId: items[0].playerId.S,
+      name: items[0].name.S,
+      number: items[0].number.N,
+      team: items[0].team.S,
+    };
+  } catch (error) {
+    const err = <Error>error;
+    console.error(`The query attempt failed with message: ${err.message}`);
+    throw new Error(error);
+  }
+};
+export const createOrUpdateOnePlayer = async (
+  player: Player,
+  checkDuplicate: boolean = true
+): Promise<Nullable<PlayerPrimitives>> => {
+  const client = DynamoDBFactory.getClient();
+
+  const tableName = getDynamoDBConfigs().table_names.players_table;
+
+  try {
+    if (checkDuplicate) {
+      const findOne = await searchOnePlayer(player.getPlayerId());
+      if (findOne && findOne.hasOwnProperty("playerId")) {
+        return null;
+      }
+    }
+
+    await client.send(
+      new PutItemCommand({
+        TableName: tableName,
+        Item: {
+          playerId: { S: player.getPlayerId() },
+          name: { S: player.getName() },
+          number: { N: player.getNumber().toString() },
+          team: { S: player.getTeam() },
+        },
+      })
+    );
+    return {
+      playerId: player.getPlayerId(),
+      name: player.getName(),
+      number: player.getNumber(),
+      team: player.getTeam(),
+    };
+  } catch (error) {
+    const err = <Error>error;
+    console.error(`The query attempt failed with message: ${err.message}`);
+    throw new Error(error);
+  }
+};
 export const searchManyPlayers = async (): Promise<
   Nullable<Array<PlayerPrimitives>>
 > => {
   const client = DynamoDBFactory.getClient();
 
   const tableName = getDynamoDBConfigs().table_names.players_table;
-  console.log(tableName);
   const items = [];
   let hasMoreElements: boolean;
 

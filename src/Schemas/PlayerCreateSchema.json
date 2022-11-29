@@ -1,0 +1,16 @@
+{
+    "definitions": {},
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "type": "object",
+    "title": "Player create Schema",  
+    "properties": {    
+      "name": { "type": "string"},
+      "team": { "type": "string"},
+      "number": { "type": "number"}
+    },
+    "required": [
+      "name",
+      "team",
+      "number"
+    ]
+  }

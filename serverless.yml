@@ -49,6 +49,35 @@ functions:
           path: /players
           method: get
           cors: true
+  PlayersGetById:
+    handler: src/Controllers/PlayersGetById.handler
+    environment:
+      NODE_ENV: ${file(keys.yml):NODE_ENV}
+      USER_NAME: ${file(keys.yml):USER_NAME}
+      GENERAL_REGION: ${file(keys.yml):GENERAL_REGION}
+    events:
+      - http:
+          path: /players/{id}
+          method: get
+          cors: true
+          request: 
+            parameters: 
+              paths: 
+                id: true
+  PlayersCreate:
+    handler: src/Controllers/PlayersCreate.handler
+    environment:
+      NODE_ENV: ${file(keys.yml):NODE_ENV}
+      USER_NAME: ${file(keys.yml):USER_NAME}
+      GENERAL_REGION: ${file(keys.yml):GENERAL_REGION}
+    events:
+      - http:
+          path: /players
+          method: post
+          cors: true
+          request: 
+            schemas: 
+              application/json: ${file(src/Schemas/PlayerCreateSchema.json)}
 
 resources:
   Resources:
