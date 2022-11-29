@@ -1,4 +1,4 @@
-service: demo-api-lambda-dynamodb-${file(keys.yml):USER_NAME}
+service: api-lambda-dynamodb-${file(keys.yml):USER_NAME}
 frameworkVersion: "3"
 
 plugins:
@@ -33,15 +33,17 @@ provider:
   httpApi:
     useProviderTags: true
   deploymentBucket:
-    name: demo-api-lambda-dynamodb-${file(keys.yml):USER_NAME}
+    name: api-lambda-dynamodb-${file(keys.yml):USER_NAME}
     serverSideEncryption: AES256
-  stackName: demo-api-lambda-dynamodb-${file(keys.yml):USER_NAME}
+  stackName: api-lambda-dynamodb-${file(keys.yml):USER_NAME}
 
 functions:
   PlayersGetAll:
     handler: src/Controllers/PlayersGetAll.handler
     environment:
       NODE_ENV: ${file(keys.yml):NODE_ENV}
+      USER_NAME: ${file(keys.yml):USER_NAME}
+      GENERAL_REGION: ${file(keys.yml):GENERAL_REGION}
     events:
       - http:
           path: /players
@@ -53,7 +55,7 @@ resources:
     playersTable:
       Type: AWS::DynamoDB::Table
       Properties:
-        TableName: demo-api-lambda-dynamodb-${file(keys.yml):NODE_ENV}-${file(keys.yml):USER_NAME}
+        TableName: api-lambda-dynamodb-${file(keys.yml):NODE_ENV}-${file(keys.yml):USER_NAME}
         AttributeDefinitions:
           - AttributeName: playerId
             AttributeType: S
