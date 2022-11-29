@@ -44,7 +44,7 @@ jobs:
           --provider aws \
           --key ${{ secrets.AWS_ACCESS_KEY_ID }} \
           --secret ${{ secrets.AWS_SECRET_ACCESS_KEY }} \
-          --profile prodProfile
+          --profile devProfile
     
     - name: Deploy on AWS
       uses: actions/setup-node@v3

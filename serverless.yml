@@ -40,9 +40,9 @@ provider:
   httpApi:
     useProviderTags: true
   deploymentBucket:
-    name: api-lambda-dynamodb-${self:custom.profiles.${sls:stage}}-${file(keys.yml):USER_NAME}
+    name: api-lambda-dynamodb-${file(keys.yml):USER_NAME}-${sls:stage}
     serverSideEncryption: AES256
-  stackName: api-lambda-dynamodb-${self:custom.profiles.${sls:stage}}-${file(keys.yml):USER_NAME}
+  stackName: api-lambda-dynamodb-${file(keys.yml):USER_NAME}-${sls:stage}
 
 ## All Lambda functions
 functions: ${file(./resources/functions.yml)} 
