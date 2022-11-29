@@ -31,8 +31,8 @@ jobs:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
     - run: |
+        npm install -g serverless
         npm install
-        npm install --save serverless
 
     - name: Config AWS credentials
       uses: actions/setup-node@v3
@@ -52,4 +52,4 @@ jobs:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
     - run: |	
-        serverless deploy --stage prod
+        serverless deploy --stage dev
