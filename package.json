@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "watch": "serverless offline"
+    "watch": "serverless offline",
+    "compile": "cd src/ && tsc"
   },
   "repository": {
     "type": "git",

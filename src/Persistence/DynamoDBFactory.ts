@@ -10,7 +10,7 @@ export class DynamoDBFactory {
     } catch (error) {
       const err = <Error>error;
       console.error(`The connection to DynamoDB failed with message: ${err.message}`);
-      throw new Error(error);
+      throw new Error(`The connection to DynamoDB failed with message: ${err.message}`);
     }
   }
 

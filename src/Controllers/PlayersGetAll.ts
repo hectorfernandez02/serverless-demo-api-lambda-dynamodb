@@ -1,4 +1,4 @@
-import { APIGatewayProxyEvent, APIGatewayProxyResult } from "aws-lambda";
+import {  APIGatewayProxyResult } from "aws-lambda";
 
 import { HttpsStatusCodeEnum } from "@Enums/HttpsStatusCodeEnum";
 import { gatewayResponse } from "@Utils/Gateway";
@@ -7,7 +7,6 @@ import { PlayerPrimitives } from "@Types/PlayerPrimitives";
 import { searchManyPlayers } from "@Persistence/PlayerRepository";
 
 export const handler = async (
-  event: APIGatewayProxyEvent
 ): Promise<APIGatewayProxyResult> => {
   try {
     const playersDB = await searchManyPlayers();

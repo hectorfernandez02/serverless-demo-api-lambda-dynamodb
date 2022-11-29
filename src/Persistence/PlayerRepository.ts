@@ -18,7 +18,6 @@ export const searchOnePlayer = async (
   const client = DynamoDBFactory.getClient();
 
   const tableName = getDynamoDBConfigs().table_names.players_table;
-  const items = [];
 
   let commandBody: any = {
     TableName: tableName,
@@ -32,21 +31,25 @@ export const searchOnePlayer = async (
     const result = await client.send(new QueryCommand(commandBody));
 
     if (result.Items && result.Items.length > 0) {
-      items.push(...result.Items);
+      const player = new Player(
+        result.Items[0].playerId.S ? result.Items[0].playerId.S : "",
+        result.Items[0].name.S ? result.Items[0].name.S : "",
+        result.Items[0].team.S ? result.Items[0].team.S : "",
+        result.Items[0].number.N ? parseInt(result.Items[0].number.N) : 0
+      );
+      return {
+        playerId: player.getPlayerId(),
+        name: player.getName(),
+        number: player.getNumber(),
+        team: player.getTeam(),
+      };
     }
 
-    if (items.length <= 0) return null;
-
-    return {
-      playerId: items[0].playerId.S,
-      name: items[0].name.S,
-      number: items[0].number.N,
-      team: items[0].team.S,
-    };
+    return null;
   } catch (error) {
     const err = <Error>error;
     console.error(`The query attempt failed with message: ${err.message}`);
-    throw new Error(error);
+    throw new Error(`The query attempt failed with message: ${err.message}`);
   }
 };
 export const createOrUpdateOnePlayer = async (
@@ -85,7 +88,7 @@ export const createOrUpdateOnePlayer = async (
   } catch (error) {
     const err = <Error>error;
     console.error(`The query attempt failed with message: ${err.message}`);
-    throw new Error(error);
+    throw new Error(`The query attempt failed with message: ${err.message}`);
   }
 };
 export const searchManyPlayers = async (): Promise<
@@ -135,7 +138,7 @@ export const searchManyPlayers = async (): Promise<
   } catch (error) {
     const err = <Error>error;
     console.error(`The query attempt failed with message: ${err.message}`);
-    throw new Error(error);
+    throw new Error(`The query attempt failed with message: ${err.message}`);
   }
 };
 export const deleteOnePlayer = async (
@@ -160,6 +163,6 @@ export const deleteOnePlayer = async (
   } catch (error) {
     const err = <Error>error;
     console.error(`The query attempt failed with message: ${err.message}`);
-    throw new Error(error);
+    throw new Error(`The query attempt failed with message: ${err.message}`);
   }
 };
