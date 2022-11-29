@@ -21,6 +21,9 @@ provider:
         - Effect: Allow
           Action: "dynamodb:GetItem"
           Resource: "*"
+        - Effect: Allow
+          Action: "dynamodb:DeleteItem"
+          Resource: "*"
   lambdaHashingVersion: 20201221
   stage: dev
   region: ${file(keys.yml):GENERAL_REGION}
@@ -78,6 +81,35 @@ functions:
           request: 
             schemas: 
               application/json: ${file(src/Schemas/PlayerCreateSchema.json)}
+  PlayersUpdate:
+    handler: src/Controllers/PlayersUpdate.handler
+    environment:
+      NODE_ENV: ${file(keys.yml):NODE_ENV}
+      USER_NAME: ${file(keys.yml):USER_NAME}
+      GENERAL_REGION: ${file(keys.yml):GENERAL_REGION}
+    events:
+      - http:
+          path: /players
+          method: put
+          cors: true
+          request: 
+            schemas: 
+              application/json: ${file(src/Schemas/PlayerUpdateSchema.json)}
+  PlayersDelete:
+    handler: src/Controllers/PlayersDelete.handler
+    environment:
+      NODE_ENV: ${file(keys.yml):NODE_ENV}
+      USER_NAME: ${file(keys.yml):USER_NAME}
+      GENERAL_REGION: ${file(keys.yml):GENERAL_REGION}
+    events:
+      - http:
+          path: /players/{id}
+          method: delete
+          cors: true
+          request: 
+            parameters: 
+              paths: 
+                id: true
 
 resources:
   Resources:

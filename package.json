@@ -23,6 +23,7 @@
     "serverless-tscpaths": "^0.0.7"
   },
   "dependencies": {
-    "@aws-sdk/client-dynamodb": "^3.218.0"
+    "@aws-sdk/client-dynamodb": "^3.218.0",
+    "@aws-sdk/util-dynamodb": "^3.218.0"
   }
 }

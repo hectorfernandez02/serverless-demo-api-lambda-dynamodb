@@ -2,7 +2,10 @@ import {
   QueryCommand,
   ScanCommand,
   PutItemCommand,
+  DeleteItemCommand,
+  DeleteItemCommandInput,
 } from "@aws-sdk/client-dynamodb";
+import { marshall } from "@aws-sdk/util-dynamodb";
 import { Player } from "@Entities/Player";
 import { PlayerPrimitives } from "@Types/PlayerPrimitives";
 import { Nullable } from "@Types/Nullable";
@@ -129,6 +132,31 @@ export const searchManyPlayers = async (): Promise<
       };
       return playersDB;
     });
+  } catch (error) {
+    const err = <Error>error;
+    console.error(`The query attempt failed with message: ${err.message}`);
+    throw new Error(error);
+  }
+};
+export const deleteOnePlayer = async (
+  playerId: string
+): Promise<Nullable<Boolean>> => {
+  const client = DynamoDBFactory.getClient();
+  const tableName = getDynamoDBConfigs().table_names.players_table;
+  console.log(playerId);
+
+  try {
+    const params: DeleteItemCommandInput = {
+      TableName: tableName,
+      Key: marshall({
+        playerId: playerId.toString(),
+        team: "uruguay",
+      }),
+    };
+
+    const result = await client.send(new DeleteItemCommand(params));
+
+    return result ? true : false;
   } catch (error) {
     const err = <Error>error;
     console.error(`The query attempt failed with message: ${err.message}`);
