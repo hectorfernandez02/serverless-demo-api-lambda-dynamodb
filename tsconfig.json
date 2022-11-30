@@ -1,0 +1,36 @@
+{
+  "compilerOptions": {
+    "baseUrl": "src",
+    "outDir": "./dist",
+    "target": "ES2021",
+    "lib": ["ES2021"],
+    "module": "commonjs",
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "sourceMap": true,
+    "strict": true,
+    "noImplicitAny": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noImplicitReturns": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "removeComments": true,
+    "resolveJsonModule": true,
+    "declaration": true,
+    "strictNullChecks": true,
+    "paths": {
+      "@Configs": ["Configs/index"],
+      "@Controllers/*": ["Controllers/*"],
+      "@Entities/*": ["Entities/*"],
+      "@Enums/*": ["Enums/*"],
+      "@Types/*": ["Types/*"],
+      "@Utils/*": ["Utils/*"],
+      "@Persistence/*": ["Persistence/*"]
+    }
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "dist"]
+}

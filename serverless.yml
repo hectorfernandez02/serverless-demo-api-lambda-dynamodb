@@ -1,0 +1,58 @@
+service: api-lambda-dynamodb-${file(keys.yml):USER_NAME}
+frameworkVersion: "3"
+
+plugins:
+  - serverless-plugin-typescript
+  - serverless-offline
+  - serverless-tscpaths
+
+custom:
+  tscpaths:
+    tsconfigPath: tsconfig.json
+  profiles: 
+    dev: devProfile
+    prod: prodProfile
+
+provider:
+  name: aws
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action: "dynamodb:PutItem"
+          Resource: "*"
+        - Effect: Allow
+          Action: "dynamodb:GetItem"
+          Resource: "*"
+        - Effect: Allow
+          Action: "dynamodb:DeleteItem"
+          Resource: "*"
+        - Effect: Allow
+          Action: "dynamodb:Scan"
+          Resource: "*"
+        - Effect: Allow
+          Action: "dynamodb:Query"
+          Resource: "*"
+  lambdaHashingVersion: 20201221
+  stage: dev
+  region: ${file(keys.yml):GENERAL_REGION}
+  runtime: nodejs16.x
+  memorySize: 512
+  timeout: 30
+  profile: ${self:custom.profiles.${sls:stage}}
+  tags:
+    environment: dev
+    user: ${file(keys.yml):USER_NAME}
+  httpApi:
+    useProviderTags: true
+  deploymentBucket:
+    name: api-lambda-dynamodb-${file(keys.yml):USER_NAME}-${sls:stage}
+    serverSideEncryption: AES256
+  stackName: api-lambda-dynamodb-${file(keys.yml):USER_NAME}-${sls:stage}
+
+## All Lambda functions
+functions: ${file(./resources/functions.yml)} 
+
+## Resources like DynamoDB::Table
+resources:
+  Resources: ${file(./resources/general.yml)} 
