@@ -1,7 +1,9 @@
 # API using AWS Lambda and AWS DynamoDB
 
 
-Project created to show the process to deploy a simple CRUD with Node.js (Typescript) using [Serverless Framework](https://www.serverless.com/). 
+Project created to show the process to deploy a simple CRUD with Node.js (Typescript) using [Serverless Framework](https://www.serverless.com/).
+
+This CRUD is for players you can interact with the API
 
 ## :stop_sign: Pre-requirements
 1) Create a S3 Bucket called "api-lambda-dynamodb-USERNAME-ENV" when YOURNAME is the USER_NAME defined on keys.yml and ENV the environment "dev" it's ok. 
@@ -19,6 +21,29 @@ Run the following command:
 
 ```
 serverless deploy --stage local
+```
+
+After completing the deploy you will have some URLs like these
+
+1) Get ALL Players, method GET
+```
+https://XXXXX.execute-api.us-west-2.amazonaws.com/dev/players
+```
+2) Get ONE Player, method GET
+```
+https://XXXXX.execute-api.us-west-2.amazonaws.com/dev/players/{ID}
+```
+3) Create ONE Player, method POST
+```
+https://XXXXX.execute-api.us-west-2.amazonaws.com/dev/players
+```
+4) Update ONE Player, method PUT
+```
+https://XXXXX.execute-api.us-west-2.amazonaws.com/dev/players
+```
+5) Delete ONE Player, method DELETE
+```
+https://XXXXX.execute-api.us-west-2.amazonaws.com/dev/players
 ```
 
 ## :wave: Credits
