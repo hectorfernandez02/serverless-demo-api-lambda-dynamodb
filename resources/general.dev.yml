@@ -1,0 +1,17 @@
+playersTableDev:
+  Type: AWS::DynamoDB::Table
+  Properties:
+    TableName: api-lambda-dynamodb-${sls:stage}-${file(keys.yml):USER_NAME}
+    AttributeDefinitions:
+      - AttributeName: playerId
+        AttributeType: S
+      - AttributeName: team
+        AttributeType: S
+    KeySchema:
+      - AttributeName: playerId
+        KeyType: HASH
+      - AttributeName: team
+        KeyType: RANGE
+    ProvisionedThroughput:
+      ReadCapacityUnits: 1
+      WriteCapacityUnits: 1
