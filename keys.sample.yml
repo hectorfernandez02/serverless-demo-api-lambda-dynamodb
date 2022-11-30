@@ -1,3 +1,4 @@
+## Max length for USER_NAME = 12
 USER_NAME: SAMPLE
 GENERAL_REGION: us-west-2
 NODE_ENV: development
