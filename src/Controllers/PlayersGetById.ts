@@ -1,11 +1,11 @@
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from "aws-lambda";
-
 import { HttpsStatusCodeEnum } from "@Enums/HttpsStatusCodeEnum";
 import { gatewayResponse } from "@Utils/Gateway";
 import { Player } from "@Entities/Player";
 
 import { searchOnePlayer } from "@Persistence/PlayerRepository";
 
+/*Create one Player the url is /players/{ID} using GET */
 export const handler = async (
   event: APIGatewayProxyEvent
 ): Promise<APIGatewayProxyResult> => {

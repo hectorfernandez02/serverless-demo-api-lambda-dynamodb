@@ -1,4 +1,5 @@
-name: Deploy Serverless
+#Workflow for the dev branch
+name: Deploy Serverless DEV
 
 on:
   pull_request:

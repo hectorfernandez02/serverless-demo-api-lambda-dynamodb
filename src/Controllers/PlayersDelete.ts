@@ -4,6 +4,7 @@ import { gatewayResponse } from "@Utils/Gateway";
 
 import { deleteOnePlayer } from "@Persistence/PlayerRepository";
 
+/*Delete one Player the url is /players/{ID} using DELETE */
 export const handler = async (
   event: APIGatewayProxyEvent
 ): Promise<APIGatewayProxyResult> => {
