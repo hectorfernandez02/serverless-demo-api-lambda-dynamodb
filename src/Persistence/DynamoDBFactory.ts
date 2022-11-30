@@ -1,6 +1,7 @@
 import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
 import { getConfig } from '@Configs';
 
+/* Factory instance for DynamoDB */
 export class DynamoDBFactory {
   private static _client?: DynamoDBClient;
 

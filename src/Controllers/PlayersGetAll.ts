@@ -1,11 +1,10 @@
 import {  APIGatewayProxyResult } from "aws-lambda";
-
 import { HttpsStatusCodeEnum } from "@Enums/HttpsStatusCodeEnum";
 import { gatewayResponse } from "@Utils/Gateway";
 import { PlayerPrimitives } from "@Types/PlayerPrimitives";
 
 import { searchManyPlayers } from "@Persistence/PlayerRepository";
-
+/*Get All Players the url is /players using GET */
 export const handler = async (
 ): Promise<APIGatewayProxyResult> => {
   try {

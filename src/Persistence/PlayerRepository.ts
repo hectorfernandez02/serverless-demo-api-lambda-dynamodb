@@ -12,6 +12,8 @@ import { Nullable } from "@Types/Nullable";
 import { getDynamoDBConfigs } from "@Persistence/DynamoDBConfigs";
 import { DynamoDBFactory } from "@Persistence/DynamoDBFactory";
 
+/* Services for accessing the DynamoDB */
+
 export const searchOnePlayer = async (
   playerId: string
 ): Promise<Nullable<PlayerPrimitives>> => {

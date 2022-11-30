@@ -1,3 +1,4 @@
+/*Player entity*/
 export class Player {
   constructor(
     private playerId: string,
