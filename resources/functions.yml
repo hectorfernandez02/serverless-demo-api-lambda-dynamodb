@@ -1,7 +1,7 @@
 PlayersGetAll:
   handler: src/Controllers/PlayersGetAll.handler
   environment:
-      NODE_ENV: ${file(keys.yml):NODE_ENV}
+      NODE_ENV: ${opt:stage,'dev'}
       USER_NAME: ${file(keys.yml):USER_NAME}
       GENERAL_REGION: ${file(keys.yml):GENERAL_REGION}
   events:
@@ -12,7 +12,7 @@ PlayersGetAll:
 PlayersGetById:
   handler: src/Controllers/PlayersGetById.handler
   environment:
-      NODE_ENV: ${file(keys.yml):NODE_ENV}
+      NODE_ENV: ${opt:stage,'dev'}
       USER_NAME: ${file(keys.yml):USER_NAME}
       GENERAL_REGION: ${file(keys.yml):GENERAL_REGION}
   events:
@@ -27,7 +27,7 @@ PlayersGetById:
 PlayersCreate:
   handler: src/Controllers/PlayersCreate.handler
   environment:
-      NODE_ENV: ${file(keys.yml):NODE_ENV}
+      NODE_ENV: ${opt:stage,'dev'}
       USER_NAME: ${file(keys.yml):USER_NAME}
       GENERAL_REGION: ${file(keys.yml):GENERAL_REGION}
   events:
@@ -41,7 +41,7 @@ PlayersCreate:
 PlayersUpdate:
   handler: src/Controllers/PlayersUpdate.handler
   environment:
-      NODE_ENV: ${file(keys.yml):NODE_ENV}
+      NODE_ENV: ${opt:stage,'dev'}
       USER_NAME: ${file(keys.yml):USER_NAME}
       GENERAL_REGION: ${file(keys.yml):GENERAL_REGION}
   events:
@@ -55,7 +55,7 @@ PlayersUpdate:
 PlayersDelete:
   handler: src/Controllers/PlayersDelete.handler
   environment:
-      NODE_ENV: ${file(keys.yml):NODE_ENV}
+      NODE_ENV: ${opt:stage,'dev'}
       USER_NAME: ${file(keys.yml):USER_NAME}
       GENERAL_REGION: ${file(keys.yml):GENERAL_REGION}
   events:

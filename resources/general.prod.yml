@@ -1,7 +1,7 @@
-playersTable:
+playersTableProd:
   Type: AWS::DynamoDB::Table
   Properties:
-    TableName: api-lambda-dynamodb-${file(keys.yml):NODE_ENV}-${file(keys.yml):USER_NAME}
+    TableName: api-lambda-dynamodb-${sls:stage}-${file(keys.yml):USER_NAME}
     AttributeDefinitions:
       - AttributeName: playerId
         AttributeType: S
