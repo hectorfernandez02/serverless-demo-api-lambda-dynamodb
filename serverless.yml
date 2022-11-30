@@ -10,6 +10,7 @@ custom:
   tscpaths:
     tsconfigPath: tsconfig.json
   profiles: 
+    local: devProfile
     dev: devProfile
     prod: prodProfile
 
@@ -34,14 +35,14 @@ provider:
           Action: "dynamodb:Query"
           Resource: "*"
   lambdaHashingVersion: 20201221
-  stage: dev
+  stage: ${sls:stage}
   region: ${file(keys.yml):GENERAL_REGION}
   runtime: nodejs16.x
   memorySize: 512
   timeout: 30
   profile: ${self:custom.profiles.${sls:stage}}
   tags:
-    environment: dev
+    environment: ${sls:stage}
     user: ${file(keys.yml):USER_NAME}
   httpApi:
     useProviderTags: true
@@ -55,4 +56,4 @@ functions: ${file(./resources/functions.yml)}
 
 ## Resources like DynamoDB::Table
 resources:
-  Resources: ${file(./resources/general.yml)} 
+  Resources: ${file(./resources/general.${opt:stage,'dev'}.yml)} 
