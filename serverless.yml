@@ -27,6 +27,12 @@ provider:
         - Effect: Allow
           Action: "dynamodb:DeleteItem"
           Resource: "*"
+        - Effect: Allow
+          Action: "dynamodb:Scan"
+          Resource: "*"
+        - Effect: Allow
+          Action: "dynamodb:Query"
+          Resource: "*"
   lambdaHashingVersion: 20201221
   stage: dev
   region: ${file(keys.yml):GENERAL_REGION}
